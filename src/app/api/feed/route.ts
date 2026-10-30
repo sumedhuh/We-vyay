@@ -18,32 +18,37 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(mockStore.getFeed(cursor, limit));
   }
 
-  let where = undefined;
-  if (cursor) {
-    const [ts, id] = cursor.split("|");
-    const d = new Date(ts);
-    if (!Number.isNaN(d.getTime()) && id) {
-      where = or(
-        lt(workouts.createdAt, d.toISOString()),
-        and(eq(workouts.createdAt, d.toISOString()), lt(sql`${workouts.id}::text`, id)),
-      );
+  try {
+    let where = undefined;
+    if (cursor) {
+      const [ts, id] = cursor.split("|");
+      const d = new Date(ts);
+      if (!Number.isNaN(d.getTime()) && id) {
+        where = or(
+          lt(workouts.createdAt, d.toISOString()),
+          and(eq(workouts.createdAt, d.toISOString()), lt(sql`${workouts.id}::text`, id)),
+        );
+      }
     }
+
+    const rows = await db
+      .select()
+      .from(workouts)
+      .where(where)
+      .orderBy(desc(workouts.createdAt), desc(workouts.id))
+      .limit(limit + 1);
+
+    const hasMore = rows.length > limit;
+    const items = hasMore ? rows.slice(0, limit) : rows;
+    const last = items[items.length - 1];
+
+    return NextResponse.json({
+      items,
+      nextCursor: hasMore && last ? `${last.createdAt}|${last.id}` : null,
+    });
+  } catch (error: any) {
+    console.error("[api/feed] Database query failed, falling back to mock store:", error?.message || error);
+    return NextResponse.json(mockStore.getFeed(cursor, limit));
   }
-
-  const rows = await db
-    .select()
-    .from(workouts)
-    .where(where)
-    .orderBy(desc(workouts.createdAt), desc(workouts.id))
-    .limit(limit + 1);
-
-  const hasMore = rows.length > limit;
-  const items = hasMore ? rows.slice(0, limit) : rows;
-  const last = items[items.length - 1];
-
-  return NextResponse.json({
-    items,
-    nextCursor: hasMore && last ? `${last.createdAt}|${last.id}` : null,
-  });
 }
 

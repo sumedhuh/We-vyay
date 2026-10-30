@@ -17,27 +17,32 @@ export async function GET(
     return NextResponse.json(mockStore.getReviews(id));
   }
 
-  const rows = await db
-    .select()
-    .from(reviews)
-    .where(eq(reviews.workoutId, id))
-    .orderBy(desc(reviews.createdAt))
-    .limit(40);
+  try {
+    const rows = await db
+      .select()
+      .from(reviews)
+      .where(eq(reviews.workoutId, id))
+      .orderBy(desc(reviews.createdAt))
+      .limit(40);
 
-  const distribution = [0, 0, 0, 0, 0];
-  let sum = 0;
-  for (const r of rows) {
-    const idx = Math.min(5, Math.max(1, r.rating)) - 1;
-    distribution[idx] += 1;
-    sum += r.rating;
+    const distribution = [0, 0, 0, 0, 0];
+    let sum = 0;
+    for (const r of rows) {
+      const idx = Math.min(5, Math.max(1, r.rating)) - 1;
+      distribution[idx] += 1;
+      sum += r.rating;
+    }
+
+    return NextResponse.json({
+      items: rows,
+      count: rows.length,
+      average: rows.length ? sum / rows.length : 0,
+      distribution,
+    });
+  } catch (error: any) {
+    console.error("[api/reviews] Database query failed, falling back to mock store:", error?.message || error);
+    return NextResponse.json(mockStore.getReviews(id));
   }
-
-  return NextResponse.json({
-    items: rows,
-    count: rows.length,
-    average: rows.length ? sum / rows.length : 0,
-    distribution,
-  });
 }
 
 /** Post a review and roll the aggregate onto the workout row. */
