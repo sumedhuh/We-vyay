@@ -9,8 +9,17 @@ const globalForDb = globalThis as typeof globalThis & {
   __arenaNextJsPostgresqlPool?: Pool;
 };
 
+const isLocal =
+  !databaseUrl ||
+  databaseUrl.includes("localhost") ||
+  databaseUrl.includes("127.0.0.1");
+
 export const pool = databaseUrl
-  ? (globalForDb.__arenaNextJsPostgresqlPool ?? new Pool({ connectionString: databaseUrl }))
+  ? (globalForDb.__arenaNextJsPostgresqlPool ??
+     new Pool({
+       connectionString: databaseUrl,
+       ssl: isLocal ? false : { rejectUnauthorized: false },
+     }))
   : null;
 
 if (process.env.NODE_ENV !== "production" && pool) {
