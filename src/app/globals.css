@@ -1,0 +1,569 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (instant toggle, no reload) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Runtime-swappable accent ramps (written by <ThemeVars/>) */
+:root {
+  --u-mint: #a7f0cf;
+  --u-mint-strong: #6fe3b1;
+  --u-mint-deep: #1a8a5e;
+  --u-mist: #d8f3e5;
+  --u-foam: #e7f7ee;
+  --u-grape: #8b5cf6;
+  --u-amethyst: #a78bfa;
+  --u-iris: #6721d9;
+  --u-lilac: #cabffd;
+  --u-avatar: #8b5cf6;
+}
+
+@theme inline {
+  --font-sans: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), Georgia, serif;
+
+  /* Light — Cloud Dancer white + user accent */
+  --color-cloud: rgb(241, 237, 230);
+  /* Pantone Cloud Dancer */
+  --color-paper: rgb(250, 248, 243);
+  --color-foam: var(--u-foam);
+  --color-mist: var(--u-mist);
+  --color-mint: var(--u-mint);
+  --color-mint-strong: var(--u-mint-strong);
+  --color-mint-deep: var(--u-mint-deep);
+  --color-pine: rgb(11, 61, 46);
+  --color-ink: rgb(14, 21, 18);
+
+  /* Dark — Void black + user accent */
+  --color-void: rgb(7, 7, 10);
+  --color-onyx: rgb(15, 15, 20);
+  --color-graphite: rgb(23, 23, 30);
+  --color-amethyst: var(--u-amethyst);
+  --color-grape: var(--u-grape);
+  --color-iris: var(--u-iris);
+  --color-lilac: var(--u-lilac);
+  --color-snow: rgb(245, 244, 247);
+  --color-avatar: var(--u-avatar);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-drift: drift 16s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.6s linear infinite;
+  --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+  --animate-aurora: aurora 18s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-14px) rotate(1.5deg);
+  }
+}
+
+@keyframes drift {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate3d(26px, -30px, 0) scale(1.06);
+  }
+
+  66% {
+    transform: translate3d(-24px, 22px, 0) scale(0.97);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes aurora {
+  0% {
+    transform: rotate(-6deg) scale(1);
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: rotate(8deg) scale(1.12);
+    opacity: 1;
+  }
+}
+
+:root {
+  color-scheme: light;
+  --bg: #f1ede6;
+  --surface: rgba(255, 255, 255, 0.66);
+  --surface-solid: #faf8f3;
+  --hairline: rgba(14, 21, 18, 0.09);
+  --shadow-soft: 0 18px 50px -24px rgba(11, 61, 46, 0.28);
+  --glow: color-mix(in oklab, var(--u-mint-strong) 55%, transparent);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #07070a;
+  --surface: rgba(23, 23, 30, 0.62);
+  --surface-solid: #0f0f14;
+  --hairline: rgba(202, 191, 253, 0.12);
+  --shadow-soft: 0 22px 60px -28px color-mix(in oklab, var(--u-grape) 40%, transparent);
+  --glow: color-mix(in oklab, var(--u-grape) 45%, transparent);
+}
+
+html,
+body {
+  height: 100%;
+  overscroll-behavior-y: none;
+}
+
+body {
+  background: var(--bg);
+  font-family: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Ambient aurora backdrop painted on the document so the app "canvas" floats above it */
+  background-image:
+    radial-gradient(52rem 32rem at 12% -8%, color-mix(in oklab, var(--u-mint) 50%, transparent), transparent 60%),
+    radial-gradient(46rem 30rem at 96% 6%, color-mix(in oklab, var(--u-mist) 70%, transparent), transparent 55%),
+    radial-gradient(60rem 40rem at 50% 115%, color-mix(in oklab, var(--u-mint) 36%, transparent), transparent 60%);
+}
+
+.dark body {
+  background-image:
+    radial-gradient(52rem 34rem at 10% -10%, color-mix(in oklab, var(--u-grape) 20%, transparent), transparent 60%),
+    radial-gradient(48rem 30rem at 98% 4%, color-mix(in oklab, var(--u-iris) 16%, transparent), transparent 55%),
+    radial-gradient(64rem 44rem at 50% 118%, color-mix(in oklab, var(--u-amethyst) 14%, transparent), transparent 62%);
+}
+
+::selection {
+  background: var(--u-mint);
+  color: #0b3d2e;
+}
+
+.dark ::selection {
+  background: var(--u-grape);
+  color: #f5f4f7;
+}
+
+/* Glass surface utility shared by nav, cards, modals */
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+}
+
+.surface-solid {
+  background: var(--surface-solid);
+  border: 1px solid var(--hairline);
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+/* Hide scrollbars inside the app frame (nav-driven layout) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Shimmer skeleton */
+.shimmer {
+  background-image: linear-gradient(100deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 70%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+.dark .shimmer {
+  background-image: linear-gradient(100deg,
+      transparent 30%,
+      rgba(202, 191, 253, 0.14) 50%,
+      transparent 70%);
+}
+
+/* Accent-aware range sliders (vibe editor + settings) */
+.vibe-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right,
+      var(--u-mint-deep) 0%,
+      var(--u-mint-strong) var(--pct, 50%),
+      color-mix(in oklab, currentColor 12%, transparent) var(--pct, 50%));
+}
+
+.dark .vibe-range::-webkit-slider-runnable-track {
+  background: linear-gradient(to right,
+      var(--u-iris) 0%,
+      var(--u-amethyst) var(--pct, 50%),
+      rgba(255, 255, 255, 0.12) var(--pct, 50%));
+}
+
+.vibe-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--u-mint-deep);
+  box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.28);
+  transition: transform 0.12s ease;
+}
+
+.dark .vibe-range::-webkit-slider-thumb {
+  background: #14131a;
+  border-color: var(--u-amethyst);
+}
+
+.vibe-range:active::-webkit-slider-thumb {
+  transform: scale(1.18);
+}
+
+.vibe-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(128, 128, 128, 0.2);
+}
+
+.vibe-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--u-mint-deep);
+}
+
+.vibe-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--u-mint-deep);
+}
+
+.vibe-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--u-mint-deep);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Multi-accent semantic colors ─────────────────────────────── */
+:root {
+  --color-coral: #FF6B6B;
+  --color-amber: #FFB347;
+  --color-sky-accent: #68B5E8;
+  --color-pink-accent: #FF69B4;
+
+  /* Challenge card pastels */
+  --card-peach: #FFD5C2;
+  --card-parchment: #FFF3CD;
+  --card-midnight: #C8D6E5;
+  --card-slate: #D5D5D5;
+  --card-sage: #D4EDDA;
+  --card-cyan: #D1ECF1;
+  --card-mocha: #E8D5B7;
+  --card-coral: #FFD6D6;
+  --card-lavender: #E8DAEF;
+}
+
+.dark {
+  /* Challenge card pastels — darker, more saturated variants */
+  --card-peach: #3D2A1F;
+  --card-parchment: #3D3520;
+  --card-midnight: #1A2332;
+  --card-slate: #2A2A2E;
+  --card-sage: #1A2E1F;
+  --card-cyan: #1A2E32;
+  --card-mocha: #2E251A;
+  --card-coral: #3D2020;
+  --card-lavender: #2A1F32;
+}
+
+/* ─── Dark mode colored card glows ─────────────────────────────── */
+.dark .shadow-glow-amber {
+  box-shadow: 0 12px 40px -12px rgba(255, 179, 71, 0.35);
+}
+
+.dark .shadow-glow-coral {
+  box-shadow: 0 12px 40px -12px rgba(255, 107, 107, 0.35);
+}
+
+.dark .shadow-glow-sky {
+  box-shadow: 0 12px 40px -12px rgba(104, 181, 232, 0.35);
+}
+
+.dark .shadow-glow-pink {
+  box-shadow: 0 12px 40px -12px rgba(255, 105, 180, 0.35);
+}
+
+.dark .shadow-glow-green {
+  box-shadow: 0 12px 40px -12px rgba(111, 227, 177, 0.35);
+}
+
+.dark .shadow-glow-purple {
+  box-shadow: 0 12px 40px -12px rgba(139, 92, 246, 0.4);
+}
+
+/* ─── Layered glassmorphism (nested cards) ─────────────────────── */
+.glass-layered {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+}
+
+.dark .glass-layered {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-inner {
+  background: rgba(255, 255, 255, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dark .glass-inner {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Organic blob border-radius ───────────────────────────────── */
+.blob-1 {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.blob-2 {
+  border-radius: 58% 42% 35% 65% / 45% 55% 45% 55%;
+}
+
+.blob-3 {
+  border-radius: 42% 58% 70% 30% / 55% 30% 70% 45%;
+}
+
+.blob-4 {
+  border-radius: 70% 30% 50% 50% / 40% 60% 40% 60%;
+}
+
+/* ─── Challenge card animations ────────────────────────────────── */
+@keyframes fuse-pulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes liquid-wave {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-8px) translateY(-2px);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes crack-spread {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+  }
+
+  100% {
+    clip-path: circle(100% at 50% 50%);
+  }
+}
+
+@keyframes ash-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(60px) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes seed-float {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(80px) translateX(30px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+@keyframes gullak-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 179, 71, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(255, 179, 71, 0.6), 0 0 60px rgba(255, 107, 107, 0.3);
+  }
+}
+
+@keyframes crush-shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-4px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fuse-pulse {
+  animation: fuse-pulse 1.5s ease-in-out infinite;
+}
+
+.animate-liquid-wave {
+  animation: liquid-wave 2s ease-in-out infinite;
+}
+
+.animate-gullak-glow {
+  animation: gullak-glow 2s ease-in-out infinite;
+}
+
+.animate-crush-shake {
+  animation: crush-shake 0.5s ease-in-out;
+}
+
+.animate-pop-in {
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ─── Stats chip colors ────────────────────────────────────────── */
+.chip-steps {
+  background: linear-gradient(135deg, #D4EDDA, #A8E6CF);
+}
+
+.chip-calories {
+  background: linear-gradient(135deg, #FFE8CC, #FFD5A0);
+}
+
+.chip-active {
+  background: linear-gradient(135deg, #FFD6D6, #FFB8B8);
+}
+
+.chip-xp {
+  background: linear-gradient(135deg, #E8DAEF, #D5C4F0);
+}
+
+.dark .chip-steps {
+  background: linear-gradient(135deg, #1A2E1F, #1F3D28);
+}
+
+.dark .chip-calories {
+  background: linear-gradient(135deg, #2E251A, #3D3220);
+}
+
+.dark .chip-active {
+  background: linear-gradient(135deg, #3D2020, #4A2828);
+}
+
+.dark .chip-xp {
+  background: linear-gradient(135deg, #2A1F32, #352840);
+}
+
+/* ─── Week strip active day ────────────────────────────────────── */
+.day-active {
+  background: linear-gradient(135deg, var(--u-mint-deep), var(--u-mint-strong));
+  color: white;
+}
+
+.dark .day-active {
+  background: linear-gradient(135deg, var(--u-iris), var(--u-grape));
+}
+@import './3d-builder.css';

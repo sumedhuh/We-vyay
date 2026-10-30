@@ -1,0 +1,222 @@
+
+
+/* ============================================================
+   MOTIONLAB — PREMIUM FITNESS GAME
+   Deep charcoal canvas · neon lime gameplay · violet creation
+   · amber rewards · red for errors only.
+   ============================================================ */
+:root {
+  /* ---- canvas ---- */
+  --ml-bg: #111411;
+  --ml-bg-deep: #0c0f0c;
+  --ml-surface: rgba(25, 29, 26, 0.88);
+  --ml-surface-solid: #191d1a;
+  --ml-surface-2: #222722;
+  --ml-border: rgba(245, 247, 242, 0.09);
+  --ml-border-strong: rgba(245, 247, 242, 0.18);
+
+  /* ---- ACCENT · cyan (action / progress / XP / active / CTA) ---- */
+  --ml-lime: #22d8ff;
+  --ml-lime-bright: #6fe6ff;
+  --ml-lime-deep: #00b3e6;
+  --ml-lime-soft: rgba(34, 216, 255, 0.13);
+  --ml-lime-glow: rgba(34, 216, 255, 0.38);
+
+  /* ---- ACCENT · violet (creation / customization / studio) ---- */
+  --ml-violet: #8b5cf6;
+  --ml-violet-bright: #a78bfa;
+  --ml-violet-soft: rgba(139, 92, 246, 0.15);
+  --ml-violet-glow: rgba(139, 92, 246, 0.4);
+
+  /* ---- ACCENT · amber (streaks / rewards / achievements) ---- */
+  --ml-amber: #ffb547;
+  --ml-amber-soft: rgba(255, 181, 71, 0.15);
+  --ml-amber-glow: rgba(255, 181, 71, 0.4);
+
+  /* ---- errors only ---- */
+  --ml-error: #ff5c5c;
+  --ml-error-soft: rgba(255, 92, 92, 0.14);
+
+  /* ---- type ---- */
+  --ml-text: #f5f7f2;
+  --ml-text-dim: rgba(245, 247, 242, 0.64);
+  --ml-muted: #929a91;
+
+  /* legacy aliases */
+  --ml-accent: var(--ml-lime);
+  --ml-accent-soft: var(--ml-lime-soft);
+  --ml-teal: var(--ml-lime);
+  --ml-coral: var(--ml-amber);
+  --ml-orchid: var(--ml-violet);
+  --ml-sky: var(--ml-violet-bright);
+  --ml-sage: var(--ml-lime);
+  --ml-flame: var(--ml-amber);
+  --ml-sun: var(--ml-amber);
+  --ml-cyan: var(--ml-violet-bright);
+  --ml-cream: var(--ml-text);
+  --ml-cream-2: #e3e7e0;
+  --ml-on-cream: #161a16;
+  --ml-on-accent: #131706;
+}
+
+
+
+
+
+canvas { touch-action: none; }
+
+.studio-font { font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif; }
+.font-mono,
+.studio-font .font-mono,
+code, kbd, pre {
+  font-family: "IBM Plex Mono", "SF Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+.tracking-widest { letter-spacing: 0.08em !important; }
+
+/* ---------- range sliders ---------- */
+input[type="range"] {
+  cursor: pointer;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(245, 247, 242, 0.12);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--ml-lime);
+  border: 2px solid var(--ml-bg-deep);
+  box-shadow: 0 0 10px var(--ml-lime-glow);
+  cursor: grab;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--ml-lime);
+  border: 2px solid var(--ml-bg-deep);
+  box-shadow: 0 0 10px var(--ml-lime-glow);
+  cursor: grab;
+}
+
+/* ============================================================
+   TAILWIND UTILITY REMAP — legacy accents resolve to the system.
+   lime → #22D8FF · cyan → violet · orange/amber → amber · red stays error
+   ============================================================ */
+.text-lime-300, .text-lime-200, .text-lime-400 { color: var(--ml-lime) !important; }
+.bg-lime-300, .bg-lime-200, .bg-lime-400 { background-color: var(--ml-lime) !important; }
+.border-lime-300, .border-lime-200, .border-lime-400 { border-color: var(--ml-lime) !important; }
+.ring-lime-300 { --tw-ring-color: var(--ml-lime) !important; }
+.from-lime-300 { --tw-gradient-from: var(--ml-lime) !important; }
+.to-lime-300 { --tw-gradient-to: var(--ml-lime) !important; }
+.via-lime-300 { --tw-gradient-via: var(--ml-lime) !important; }
+.accent-lime-300 { accent-color: var(--ml-lime) !important; }
+
+/* any old `cyan-*` also lands on the SAME primary cyan (single accent) */
+.text-cyan-300, .text-cyan-200, .text-cyan-400 { color: var(--ml-lime) !important; }
+.bg-cyan-300, .bg-cyan-200, .bg-cyan-400 { background-color: var(--ml-lime) !important; }
+.border-cyan-300, .border-cyan-200, .border-cyan-400 { border-color: var(--ml-lime) !important; }
+.from-cyan-300 { --tw-gradient-from: var(--ml-lime) !important; }
+.to-cyan-300 { --tw-gradient-to: var(--ml-lime) !important; }
+.accent-cyan-300 { accent-color: var(--ml-lime) !important; }
+
+.text-orange-400, .text-orange-300 { color: var(--ml-amber) !important; }
+.bg-orange-400 { background-color: var(--ml-amber) !important; }
+.to-orange-400 { --tw-gradient-to: var(--ml-amber) !important; }
+
+.text-violet-200, .text-violet-300 { color: var(--ml-violet-bright) !important; }
+.bg-violet-300 { background-color: var(--ml-violet) !important; }
+.border-violet-300 { border-color: var(--ml-violet) !important; }
+.from-violet-300 { --tw-gradient-from: var(--ml-violet) !important; }
+.to-violet-300 { --tw-gradient-to: var(--ml-violet) !important; }
+
+.text-amber-300, .text-amber-400 { color: var(--ml-amber) !important; }
+.bg-amber-400 { background-color: var(--ml-amber) !important; }
+.border-amber-400 { border-color: var(--ml-amber) !important; }
+
+.text-red-200, .text-red-300 { color: #ff8a7a !important; }
+.border-red-400 { border-color: var(--ml-error) !important; }
+
+.text-black { color: var(--ml-on-accent) !important; }
+
+/* neutral panel surfaces → charcoal glass */
+.bg-\[\#12161d\], .bg-\[\#161f33\], .bg-\[\#080b12\], .bg-\[\#0a0d14\], .bg-\[\#07080d\], .bg-\[\#0d1320\] { background-color: var(--ml-surface-solid) !important; }
+.bg-\[\#12161d\]\/95, .bg-\[\#161f33\]\/95, .bg-\[\#080b12\]\/95, .bg-\[\#0d1320\]\/95 { background-color: var(--ml-surface) !important; }
+.bg-\[\#07080d\]\/70, .bg-\[\#07080d\]\/80 { background-color: rgba(17, 20, 17, 0.78) !important; }
+
+/* ---------- shared HUD pieces ---------- */
+.glass-panel {
+  background: var(--ml-surface);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid var(--ml-border);
+}
+
+.glow-lime   { box-shadow: 0 0 18px var(--ml-lime-glow), 0 0 44px rgba(184,255,44,0.16) !important; }
+.glow-violet { box-shadow: 0 0 18px var(--ml-violet-glow), 0 0 44px rgba(139,92,246,0.18) !important; }
+.glow-amber  { box-shadow: 0 0 18px var(--ml-amber-glow), 0 0 44px rgba(255,181,71,0.16) !important; }
+
+[class*="shadow-[0_0_"] {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 14px 38px rgba(0, 0, 0, 0.42) !important;
+}
+
+/* ---------- gamification motion: fast + satisfying ---------- */
+@keyframes ml-xp-pop {
+  0% { transform: translateY(6px) scale(0.7); opacity: 0; }
+  35% { transform: translateY(-4px) scale(1.08); opacity: 1; }
+  100% { transform: translateY(-34px) scale(1); opacity: 0; }
+}
+@keyframes ml-combo-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  40% { transform: scale(1.12); opacity: 1; }
+  70% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.96); opacity: 0; }
+}
+@keyframes ml-toast-in {
+  0% { transform: translateY(10px) scale(0.96); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes ml-level-up {
+  0% { transform: scale(0.5) rotate(-4deg); opacity: 0; }
+  45% { transform: scale(1.06) rotate(1deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes ml-bar-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(220%); }
+}
+@keyframes ml-rep-flash {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+.anim-xp-pop { animation: ml-xp-pop 1s cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
+.anim-combo-pop { animation: ml-combo-pop 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
+.anim-toast-in { animation: ml-toast-in 0.22s ease-out both; }
+.anim-level-up { animation: ml-level-up 0.45s cubic-bezier(0.2, 0.8, 0.3, 1.2) both; }
+.anim-rep-flash { animation: ml-rep-flash 0.3s ease-out; }
+.bar-shine { position: relative; overflow: hidden; }
+.bar-shine::after {
+  content: ""; position: absolute; inset: 0; width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: ml-bar-shine 2.4s ease-in-out infinite;
+}
+
+/* ---------- scrollbars ---------- */
+aside::-webkit-scrollbar,
+div::-webkit-scrollbar { width: 6px; height: 6px; }
+aside::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb { background: rgba(245, 247, 242, 0.14); border-radius: 999px; }
+aside::-webkit-scrollbar-thumb:hover,
+div::-webkit-scrollbar-thumb:hover { background: var(--ml-lime); }
+aside::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track { background: transparent; }
+
+:focus-visible { outline: 2px solid var(--ml-lime); outline-offset: 2px; }
+
