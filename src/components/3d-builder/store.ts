@@ -188,7 +188,7 @@ export const usePushupStore = create<PushupState>((set) => ({
   shortsColor: "#f3f4f6", // clean white shorts for maximum separation
   showGrid: true,
   showTrail: true,
-  showAngles: true,
+  showAngles: false,
   showAnalysis: true,
   showBreath: true,
   slowMo: false,

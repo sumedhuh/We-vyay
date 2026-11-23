@@ -2,9 +2,10 @@
 
 import { useEffect, useState, useRef, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Flame, Users, X } from "lucide-react";
+import { Flame, X, User, Users } from "lucide-react";
 import { useUiStore, type TabId } from "@/stores/ui-store";
 import { usePetStore } from "@/stores/pet-store";
+import { useSettingsStore } from "@/stores/settings-store";
 import { BottomNav, NAV_TABS } from "./bottom-nav";
 import { ThemeToggle } from "./theme-toggle";
 import { ToastRail } from "./toasts";
@@ -12,6 +13,7 @@ import { PetCameo } from "@/components/pets/pet-cameo";
 import { ThemeVars } from "./theme-vars";
 import { cn } from "@/lib/utils";
 import { ProSheet } from "@/components/pro/pro-screen";
+import { MomentumLoader } from "@/components/loading/momentum-loader";
 import dynamic from "next/dynamic";
 
 function TabSkeleton() {
@@ -47,12 +49,19 @@ const CommunityScreen = () => {
 const SettingsScreen = dynamic(() => import("@/components/settings/settings-screen").then(mod => mod.SettingsScreen), {
   loading: () => <TabSkeleton />,
 });
+const MyWorkoutsScreen = dynamic(() => import("@/components/workouts/my-workouts-screen").then(mod => mod.MyWorkoutsScreen), {
+  loading: () => <TabSkeleton />,
+});
+const ProfileScreen = dynamic(() => import("@/components/profile/profile-screen").then(mod => mod.ProfileScreen), {
+  loading: () => <TabSkeleton />,
+});
 
 const SCREENS: Record<TabId, ReactNode> = {
   pets: <PetsScreen />,
   feed: <FeedScreen />,
   community: <CommunityScreen />,
   settings: <SettingsScreen />,
+  workouts: <MyWorkoutsScreen />,
 };
 
 function KeepAliveTab({
@@ -115,6 +124,9 @@ export function AppShell() {
   const activeTab = useUiStore((s) => s.activeTab);
   const studioOpen = useUiStore((s) => s.studioOpen);
   const closeStudio = useUiStore((s) => s.closeStudio);
+  const profileOpen = useUiStore((s) => s.profileOpen);
+  const openProfile = useUiStore((s) => s.openProfile);
+  const closeProfile = useUiStore((s) => s.closeProfile);
   const streak = usePetStore((s) => s.streak);
   const touchDaily = usePetStore((s) => s.touchDaily);
 
@@ -167,6 +179,16 @@ export function AppShell() {
             </span>
           </div>
           <div className="flex items-center gap-2">
+            {/* Profile avatar button */}
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.9 }}
+              onClick={openProfile}
+              aria-label="View profile"
+              className="flex size-10 items-center justify-center rounded-full border border-black/8 dark:border-white/10 bg-black/4 dark:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-mint-deep/50"
+            >
+              <User className="size-4.5 text-ink/60 dark:text-snow/60" aria-hidden />
+            </motion.button>
             <PetCameo size={28} showMessage={false} />
             <motion.div
               layout
@@ -194,6 +216,10 @@ export function AppShell() {
         <ToastRail />
         <ProSheet />
 
+        {/* Global Momentum Loader — driven by loader-store, shown over the whole canvas */}
+        <MomentumLoader />
+
+        {/* Studio overlay */}
         <AnimatePresence>
           {studioOpen && (
             <motion.div
@@ -212,6 +238,32 @@ export function AppShell() {
                 </button>
               </div>
               <StudioScreen />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Profile overlay */}
+        <AnimatePresence>
+          {profileOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 40 }}
+              className="absolute inset-0 z-50 overflow-y-auto overscroll-contain bg-paper px-5 pb-36 pt-4 dark:bg-void no-scrollbar"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <button
+                  type="button"
+                  onClick={closeProfile}
+                  aria-label="Close profile"
+                  className="flex size-8 items-center justify-center rounded-full bg-ink/5 hover:bg-ink/10 dark:bg-white/5 dark:hover:bg-white/10"
+                >
+                  <X className="size-4 text-ink dark:text-snow" />
+                </button>
+                <span className="text-[13px] font-bold text-ink/60 dark:text-snow/60">Profile</span>
+                <div className="size-8" aria-hidden />
+              </div>
+              <ProfileScreen />
             </motion.div>
           )}
         </AnimatePresence>

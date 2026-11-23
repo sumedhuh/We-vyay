@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export type TabId = "pets" | "feed" | "community" | "settings";
+export type TabId = "pets" | "feed" | "community" | "settings" | "workouts";
 
 export type Toast = {
   id: number;
@@ -22,6 +22,9 @@ type UiState = {
   studioOpen: boolean;
   openStudio: () => void;
   closeStudio: () => void;
+  profileOpen: boolean;
+  openProfile: () => void;
+  closeProfile: () => void;
   toasts: Toast[];
   pushToast: (t: Omit<Toast, "id">) => void;
   dismissToast: (id: number) => void;
@@ -42,6 +45,10 @@ export const useUiStore = create<UiState>()(
       studioOpen: false,
       openStudio: () => set({ studioOpen: true }),
       closeStudio: () => set({ studioOpen: false }),
+
+      profileOpen: false,
+      openProfile: () => set({ profileOpen: true }),
+      closeProfile: () => set({ profileOpen: false }),
 
       toasts: [],
       pushToast: (t) => {

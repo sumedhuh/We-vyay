@@ -282,11 +282,242 @@ const boxJumpStand: Pose = P({
   legFlexL: 0, legFlexR: 0, kneeL: 2, kneeR: 2
 });
 
+// ==================================================================
+//  7 Biomechanical Core Exercises (Reverse Crunch, Crunch, Leg Raises,
+//  Plank, Bicycle Crunches, Dead Bug, Hollow Body Hold)
+// ==================================================================
+
+// ---- 1. Reverse Crunch ----
+const reverseCrunchSetup: Pose = P({
+  rootY: 0.14, rootZ: -0.28, rootPitch: 90, rootSpin: 180,
+  spineCurl: 4, headNod: 8,
+  armFlexL: -10, armFlexR: -10, armAbdL: 18, armAbdR: 18, elbowL: 5, elbowR: 5,
+  legFlexL: 90, legFlexR: 90, kneeL: 90, kneeR: 90, footL: 5, footR: 5,
+});
+const reverseCrunchTop: Pose = P({
+  rootY: 0.22, rootZ: -0.28, rootPitch: 75, rootSpin: 180,
+  spineCurl: 28, headNod: 16,
+  armFlexL: -12, armFlexR: -12, armAbdL: 20, armAbdR: 20, elbowL: 8, elbowR: 8,
+  legFlexL: 114, legFlexR: 114, kneeL: 108, kneeR: 108, footL: 10, footR: 10,
+});
+
+// ---- 2. Crunches ----
+const crunchDown: Pose = P({
+  rootY: 0.14, rootZ: -0.28, rootPitch: 90, rootSpin: 180,
+  spineCurl: 4, headNod: 4,
+  armFlexL: 35, armFlexR: 35, armAbdL: 45, armAbdR: 45, elbowL: 130, elbowR: 130,
+  legFlexL: 62, legFlexR: 62, kneeL: 85, kneeR: 85, footL: -12, footR: -12,
+});
+const crunchUp: Pose = P({
+  rootY: 0.17, rootZ: -0.28, rootPitch: 84, rootSpin: 180,
+  spineCurl: 36, headNod: 20,
+  armFlexL: 35, armFlexR: 35, armAbdL: 42, armAbdR: 42, elbowL: 130, elbowR: 130,
+  legFlexL: 62, legFlexR: 62, kneeL: 85, kneeR: 85, footL: -12, footR: -12,
+});
+
+// ---- 3. Lying Leg Raises ----
+const legRaiseHover: Pose = P({
+  rootY: 0.14, rootZ: -0.28, rootPitch: 90, rootSpin: 180,
+  spineCurl: 8, headNod: 8,
+  armFlexL: -10, armFlexR: -10, armAbdL: 15, armAbdR: 15, elbowL: 4, elbowR: 4,
+  legFlexL: 12, legFlexR: 12, kneeL: 4, kneeR: 4, footL: 25, footR: 25,
+});
+const legRaiseVertical: Pose = P({
+  rootY: 0.16, rootZ: -0.28, rootPitch: 86, rootSpin: 180,
+  spineCurl: 14, headNod: 10,
+  armFlexL: -10, armFlexR: -10, armAbdL: 15, armAbdR: 15, elbowL: 4, elbowR: 4,
+  legFlexL: 88, legFlexR: 88, kneeL: 4, kneeR: 4, footL: 30, footR: 30,
+});
+
+// ---- 4. Plank ----
+const plankHold1: Pose = P({
+  rootY: 0.32, rootZ: -0.24, rootPitch: 90, rootSpin: 0,
+  spineCurl: 2, headNod: -4,
+  armFlexL: 88, armFlexR: 88, armAbdL: 10, armAbdR: 10, elbowL: 92, elbowR: 92,
+  legFlexL: 0, legFlexR: 0, kneeL: 2, kneeR: 2, footL: 55, footR: 55,
+});
+const plankHold2: Pose = P({
+  rootY: 0.325, rootZ: -0.24, rootPitch: 90, rootSpin: 0,
+  spineCurl: 4, headNod: -4,
+  armFlexL: 88, armFlexR: 88, armAbdL: 10, armAbdR: 10, elbowL: 92, elbowR: 92,
+  legFlexL: 0, legFlexR: 0, kneeL: 2, kneeR: 2, footL: 55, footR: 55,
+});
+
+// ---- 5. Bicycle Crunches ----
+const bicycleA: Pose = P({
+  rootY: 0.16, rootZ: -0.28, rootPitch: 84, rootSpin: 180,
+  spineCurl: 26, spineSide: -14, rootTurn: 18, headTurn: 16, headNod: 18,
+  armFlexL: 25, armAbdL: 65, elbowL: 130,
+  armFlexR: 50, armAbdR: 20, elbowR: 135,
+  legFlexL: 105, kneeL: 110, footL: 15,
+  legFlexR: 18, kneeR: 8, footR: 25,
+});
+const bicycleMid: Pose = P({
+  rootY: 0.15, rootZ: -0.28, rootPitch: 86, rootSpin: 180,
+  spineCurl: 18, spineSide: 0, rootTurn: 0, headTurn: 0, headNod: 14,
+  armFlexL: 35, armAbdL: 45, elbowL: 130,
+  armFlexR: 35, armAbdR: 45, elbowR: 130,
+  legFlexL: 65, kneeL: 80, footL: 10,
+  legFlexR: 65, kneeR: 80, footR: 10,
+});
+const bicycleB: Pose = P({
+  rootY: 0.16, rootZ: -0.28, rootPitch: 84, rootSpin: 180,
+  spineCurl: 26, spineSide: 14, rootTurn: -18, headTurn: -16, headNod: 18,
+  armFlexL: 50, armAbdL: 20, elbowL: 135,
+  armFlexR: 25, armAbdR: 65, elbowR: 130,
+  legFlexL: 18, kneeL: 8, footL: 25,
+  legFlexR: 105, kneeR: 110, footR: 15,
+});
+
+// ---- 6. Dead Bug ----
+const deadBugHome: Pose = P({
+  rootY: 0.14, rootZ: -0.28, rootPitch: 90, rootSpin: 180,
+  spineCurl: 4, headNod: 6,
+  armFlexL: 90, armFlexR: 90, armAbdL: 8, armAbdR: 8, elbowL: 4, elbowR: 4,
+  legFlexL: 90, legFlexR: 90, kneeL: 90, kneeR: 90, footL: -5, footR: -5,
+});
+const deadBugReachA: Pose = P({
+  rootY: 0.14, rootZ: -0.28, rootPitch: 90, rootSpin: 180,
+  spineCurl: 4, headNod: 6,
+  armFlexL: 90, armAbdL: 8, elbowL: 4,
+  armFlexR: 172, armAbdR: 8, elbowR: 4,
+  legFlexL: 16, kneeL: 6, footL: 15,
+  legFlexR: 90, kneeR: 90, footR: -5,
+});
+const deadBugReachB: Pose = P({
+  rootY: 0.14, rootZ: -0.28, rootPitch: 90, rootSpin: 180,
+  spineCurl: 4, headNod: 6,
+  armFlexL: 172, armAbdL: 8, elbowL: 4,
+  armFlexR: 90, armAbdR: 8, elbowR: 4,
+  legFlexL: 90, kneeL: 90, footL: -5,
+  legFlexR: 16, kneeR: 6, footR: 15,
+});
+
+// ---- 7. Hollow Body Hold ----
+const hollowHold1: Pose = P({
+  rootY: 0.15, rootZ: -0.28, rootPitch: 86, rootSpin: 180,
+  spineCurl: 26, headNod: 20,
+  armFlexL: 175, armFlexR: 175, armAbdL: 8, armAbdR: 8, elbowL: 2, elbowR: 2,
+  legFlexL: 22, legFlexR: 22, legAbdL: 4, legAbdR: 4, kneeL: 2, kneeR: 2, footL: 35, footR: 35,
+});
+const hollowHold2: Pose = P({
+  rootY: 0.152, rootZ: -0.28, rootPitch: 85, rootSpin: 180,
+  spineCurl: 28, headNod: 22,
+  armFlexL: 176, armFlexR: 176, armAbdL: 8, armAbdR: 8, elbowL: 2, elbowR: 2,
+  legFlexL: 24, legFlexR: 24, legAbdL: 4, legAbdR: 4, kneeL: 2, kneeR: 2, footL: 35, footR: 35,
+});
+
 /* ================================================================== */
 /*  Exercise Definitions (phase-based with explicit equipment)         */
 /* ================================================================== */
 
 export const GYM_EXERCISES: ExerciseDefinition[] = [
+  {
+    id: "reverse_crunch",
+    displayName: "Reverse Crunch",
+    emoji: "🔄",
+    movementClassification: "isolation",
+    targetMuscles: ["Lower Abs", "Hip Flexors", "Core"],
+    equipment: [{ type: "none" }],
+    constraints: [],
+    cameraPreset: "side",
+    phases: [
+      { name: "Tabletop hold",   pose: reverseCrunchSetup, durationSec: 0.25, holdSec: 0.2, easing: "smooth" },
+      { name: "Curl & peel",     pose: reverseCrunchTop,   durationSec: 0.95, holdSec: 0.45, easing: "outCubic" },
+      { name: "Controlled lower",pose: reverseCrunchSetup, durationSec: 1.45, holdSec: 0.2, easing: "inOutSine" },
+    ],
+  },
+  {
+    id: "crunch",
+    displayName: "Crunches",
+    emoji: "🔥",
+    movementClassification: "isolation",
+    targetMuscles: ["Rectus Abdominis", "Core"],
+    equipment: [{ type: "none" }],
+    constraints: [],
+    cameraPreset: "side",
+    phases: [
+      { name: "Down (inhale)",   pose: crunchDown, durationSec: 0.2,  holdSec: 0.15, easing: "smooth" },
+      { name: "Curl (exhale)",   pose: crunchUp,   durationSec: 0.85, holdSec: 0.4,  easing: "outCubic" },
+      { name: "Lower (ecc.)",    pose: crunchDown, durationSec: 1.25, holdSec: 0.15, easing: "inOutSine" },
+    ],
+  },
+  {
+    id: "lying_leg_raise",
+    displayName: "Lying Leg Raises",
+    emoji: "🦵",
+    movementClassification: "isolation",
+    targetMuscles: ["Lower Abs", "Hip Flexors", "Core"],
+    equipment: [{ type: "none" }],
+    constraints: [],
+    cameraPreset: "side",
+    phases: [
+      { name: "Floor hover",     pose: legRaiseHover,    durationSec: 0.25, holdSec: 0.2,  easing: "smooth" },
+      { name: "Raise vertical",  pose: legRaiseVertical, durationSec: 0.95, holdSec: 0.35, easing: "outCubic" },
+      { name: "Lower (ecc.)",    pose: legRaiseHover,    durationSec: 1.5,  holdSec: 0.2,  easing: "inOutSine" },
+    ],
+  },
+  {
+    id: "plank",
+    displayName: "Plank",
+    emoji: "🧘",
+    movementClassification: "isometric",
+    targetMuscles: ["Transverse Abdominis", "Core", "Shoulders", "Glutes"],
+    equipment: [{ type: "none" }],
+    constraints: [],
+    cameraPreset: "side",
+    phases: [
+      { name: "Rigid hold",      pose: plankHold1, durationSec: 2.2, holdSec: 2.0, easing: "inOutSine" },
+      { name: "Exhale & brace",  pose: plankHold2, durationSec: 2.2, holdSec: 2.0, easing: "inOutSine" },
+    ],
+  },
+  {
+    id: "bicycle_crunch",
+    displayName: "Bicycle Crunches",
+    emoji: "🚴",
+    movementClassification: "isolation",
+    targetMuscles: ["Obliques", "Rectus Abdominis", "Hip Flexors"],
+    equipment: [{ type: "none" }],
+    constraints: [],
+    cameraPreset: "3quarter",
+    phases: [
+      { name: "Twist left",  pose: bicycleA,   durationSec: 0.75, holdSec: 0.35, easing: "inOutCubic" },
+      { name: "Center",      pose: bicycleMid, durationSec: 0.4,  holdSec: 0.05, easing: "smooth" },
+      { name: "Twist right", pose: bicycleB,   durationSec: 0.75, holdSec: 0.35, easing: "inOutCubic" },
+      { name: "Center",      pose: bicycleMid, durationSec: 0.4,  holdSec: 0.05, easing: "smooth" },
+    ],
+  },
+  {
+    id: "dead_bug",
+    displayName: "Dead Bug",
+    emoji: "🪲",
+    movementClassification: "isolation",
+    targetMuscles: ["Transverse Abdominis", "Core Stabilizers"],
+    equipment: [{ type: "none" }],
+    constraints: [],
+    cameraPreset: "3quarter",
+    phases: [
+      { name: "Tabletop brace",      pose: deadBugHome,   durationSec: 0.25, holdSec: 0.2,  easing: "smooth" },
+      { name: "Reach (R arm/L leg)", pose: deadBugReachA, durationSec: 0.95, holdSec: 0.35, easing: "inOutCubic" },
+      { name: "Return home",         pose: deadBugHome,   durationSec: 0.85, holdSec: 0.15, easing: "inOutSine" },
+      { name: "Reach (L arm/R leg)", pose: deadBugReachB, durationSec: 0.95, holdSec: 0.35, easing: "inOutCubic" },
+      { name: "Return home",         pose: deadBugHome,   durationSec: 0.85, holdSec: 0.15, easing: "inOutSine" },
+    ],
+  },
+  {
+    id: "hollow_body_hold",
+    displayName: "Hollow Body Hold",
+    emoji: "🛶",
+    movementClassification: "isometric",
+    targetMuscles: ["Rectus Abdominis", "Transverse Abdominis", "Hip Flexors"],
+    equipment: [{ type: "none" }],
+    constraints: [],
+    cameraPreset: "side",
+    phases: [
+      { name: "Hollow lock",         pose: hollowHold1, durationSec: 2.2, holdSec: 2.0, easing: "inOutSine" },
+      { name: "Braced respiration",  pose: hollowHold2, durationSec: 2.2, holdSec: 2.0, easing: "inOutSine" },
+    ],
+  },
   {
     id: "box_jump",
     displayName: "Box Jump",

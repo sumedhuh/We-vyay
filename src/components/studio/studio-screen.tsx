@@ -19,6 +19,7 @@ import {
 import { useStudioStore, type StudioItem } from "@/stores/studio-store";
 import { useUiStore } from "@/stores/ui-store";
 import { usePublishWorkout } from "@/lib/queries/feed";
+import { useLoader } from "@/components/loading/momentum-loader";
 import { AnimationPlayer } from "@/components/media/animation-player";
 import {
   ExerciseDock,
@@ -194,6 +195,7 @@ export function StudioScreen() {
   const setTab = useUiStore((s) => s.setTab);
   const pushToast = useUiStore((s) => s.pushToast);
   const publish = usePublishWorkout();
+  const { load: showLoader, finish: hideLoader, fail: failLoader } = useLoader("plan");
   const publishAnimation = usePublishedAnimationsStore((s) => s.publishAnimation);
 
   const [hydrated, setHydrated] = useState(false);
@@ -242,6 +244,7 @@ export function StudioScreen() {
   const doPublish = useCallback(() => {
     if (items.length === 0 || publish.isPending) return;
     haptic("medium");
+    showLoader();  // ← Momentum Loader appears
     publish.mutate(
       {
         title: title.trim() || "Untitled flow",
@@ -261,6 +264,7 @@ export function StudioScreen() {
       {
         onSuccess: () => {
           haptic("success");
+          hideLoader();  // ← success state plays, then auto-idles
           // Save each exercise animation to the global published-animations store
           items.forEach((item) => {
             publishAnimation({
@@ -287,6 +291,7 @@ export function StudioScreen() {
           setTab("feed");
         },
         onError: (err) => {
+          failLoader(err.message);  // ← error state with retry
           pushToast({ title: "Publish failed", message: err.message, tone: "grape" });
         },
       },

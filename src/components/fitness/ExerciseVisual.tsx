@@ -24,6 +24,7 @@ const PRESET_KEYS = new Set(["pulse", "wave", "orbit", "pop"]);
 function SetupScene({ config }: { config: any }) {
   useEffect(() => {
     const s = usePushupStore.getState();
+    s.setShowAngles(false);
     s.setUseCustom(config.presetId === "custom");
     if (config.presetId !== "custom") {
       s.applyPreset(config.presetId as PresetId);
@@ -42,6 +43,7 @@ function SetupScene({ config }: { config: any }) {
 function SetupBuiltin({ exerciseName }: { exerciseName: string }) {
   useEffect(() => {
     const s = usePushupStore.getState();
+    s.setShowAngles(false);
     const exName = exerciseName.toLowerCase().replace(/[^a-z]/g, '');
     
     // Procedural Presets
@@ -173,17 +175,6 @@ export function ExerciseVisual({
         {/* On mount, apply the published config to the global store so the 3D scene renders it accurately */}
         <SetupScene config={cfg} />
         <DynamicPushupScene />
-        {/* Animated label overlay */}
-        <motion.div
-          animate={isActive ? { scale: [1, 1.05, 1] } : {}}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="pointer-events-none absolute bottom-4 right-4 z-10 flex flex-col items-center gap-1"
-        >
-          <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#22D8FF]/30 to-purple-500/30 shadow-[0_0_20px_rgba(34,216,255,0.25)] backdrop-blur-md">
-            <Dumbbell className="size-5 text-[#22D8FF]" />
-          </div>
-          <p className="text-[9px] font-bold text-[#22D8FF]/80 tracking-wider">360°</p>
-        </motion.div>
       </div>
     );
   }

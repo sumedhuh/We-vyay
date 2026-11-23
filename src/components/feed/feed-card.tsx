@@ -91,7 +91,7 @@ export const FeedCard = memo(function FeedCard({
       style={theme ? { backgroundColor: theme.bg } : undefined}
     >
       {/* media */}
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-video overflow-hidden">
         {workout.cover ? (
           <Image
             src={workout.cover}

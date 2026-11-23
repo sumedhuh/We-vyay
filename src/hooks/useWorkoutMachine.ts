@@ -44,6 +44,8 @@ type Action =
   | { type: 'SKIP_REST' }
   | { type: 'PAUSE' }
   | { type: 'RESUME' }
+  | { type: 'SEEK_BACKWARD' }
+  | { type: 'SEEK_FORWARD' }
   | { type: 'SKIP_EXERCISE' }
   | { type: 'UNDO' }
   | { type: 'HIDE_UNDO' };
@@ -123,6 +125,81 @@ export function useWorkoutMachine(exercises: Exercise[]) {
         return { ...state, phase: 'paused', resumePhase: state.phase, timerEndsAt: state.timerEndsAt ? state.timerEndsAt - Date.now() : undefined };
       case 'RESUME':
         return { ...state, phase: state.resumePhase || 'ready', resumePhase: undefined, timerEndsAt: state.timerEndsAt ? Date.now() + state.timerEndsAt : undefined };
+      case 'SEEK_BACKWARD': {
+        if (state.phase === 'paused') {
+          return {
+            ...state,
+            timerEndsAt: state.timerEndsAt ? state.timerEndsAt + 10000 : undefined,
+          };
+        }
+        if (state.phase === 'work' && ex.kind === 'timed' && state.timerEndsAt) {
+          return {
+            ...state,
+            timerEndsAt: state.timerEndsAt + 10000,
+          };
+        }
+        if (state.phase === 'rest' && state.timerEndsAt) {
+          return {
+            ...state,
+            timerEndsAt: state.timerEndsAt + 10000,
+          };
+        }
+        if (state.setIndex > 0) {
+          return {
+            ...state,
+            setIndex: state.setIndex - 1,
+            phase: 'work',
+          };
+        }
+        if (state.exerciseIndex > 0) {
+          const prevEx = exercises[state.exerciseIndex - 1];
+          return {
+            ...state,
+            exerciseIndex: state.exerciseIndex - 1,
+            setIndex: 0,
+            phase: 'work',
+            direction: -1,
+            timerEndsAt: prevEx.kind === 'timed' ? Date.now() + (prevEx.targetSeconds || 30) * 1000 : undefined,
+          };
+        }
+        return state;
+      }
+      case 'SEEK_FORWARD': {
+        if (state.phase === 'paused') {
+          if (state.timerEndsAt) {
+            const rem = state.timerEndsAt - 10000;
+            if (rem <= 0) {
+              return reducer({ ...state, timerEndsAt: 0 }, { type: 'RESUME' });
+            }
+            return { ...state, timerEndsAt: rem };
+          }
+          return state;
+        }
+        if (state.phase === 'work' && ex.kind === 'timed' && state.timerEndsAt) {
+          const remMs = state.timerEndsAt - Date.now();
+          if (remMs <= 10000) {
+            return reducer(state, { type: 'DONE_SET' });
+          }
+          return {
+            ...state,
+            timerEndsAt: state.timerEndsAt - 10000,
+          };
+        }
+        if (state.phase === 'rest') {
+          if (state.timerEndsAt) {
+            const remMs = state.timerEndsAt - Date.now();
+            if (remMs <= 10000) {
+              return reducer(state, { type: 'SKIP_REST' });
+            }
+            return {
+              ...state,
+              timerEndsAt: state.timerEndsAt - 10000,
+            };
+          }
+          return reducer(state, { type: 'SKIP_REST' });
+        }
+        return reducer(state, { type: 'DONE_SET' });
+      }
       case 'SKIP_EXERCISE':
         if (state.exerciseIndex >= exercises.length - 1) return { ...state, phase: 'complete' };
         return {

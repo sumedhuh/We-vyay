@@ -96,14 +96,34 @@ export type EasingCurve =
   | "inOutCubic"
   | "inOutSine"
   | "inOutQuad"
+  | "inCubic"
+  | "outCubic"
+  | "inSine"
+  | "outSine"
   | "smooth";     // alias for inOutCubic
 
 export function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+export function easeInCubic(t: number): number {
+  return t * t * t;
+}
+
+export function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3);
+}
+
 export function easeInOutSine(t: number): number {
   return -(Math.cos(Math.PI * t) - 1) / 2;
+}
+
+export function easeInSine(t: number): number {
+  return 1 - Math.cos((t * Math.PI) / 2);
+}
+
+export function easeOutSine(t: number): number {
+  return Math.sin((t * Math.PI) / 2);
 }
 
 export function easeInOutQuad(t: number): number {
@@ -116,7 +136,11 @@ export function applyEasing(t: number, curve: EasingCurve = "smooth"): number {
     case "linear": return x;
     case "inOutCubic":
     case "smooth": return easeInOutCubic(x);
+    case "inCubic": return easeInCubic(x);
+    case "outCubic": return easeOutCubic(x);
     case "inOutSine": return easeInOutSine(x);
+    case "inSine": return easeInSine(x);
+    case "outSine": return easeOutSine(x);
     case "inOutQuad": return easeInOutQuad(x);
     default: return easeInOutCubic(x);
   }

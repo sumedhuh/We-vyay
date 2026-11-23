@@ -567,3 +567,24 @@ body {
   background: linear-gradient(135deg, var(--u-iris), var(--u-grape));
 }
 @import './3d-builder.css';
+
+/* ─── Momentum Loader — stroke draw keyframes ───────────────────────────── */
+@keyframes stroke-draw {
+  0%   { stroke-dashoffset: 346; opacity: 0; }
+  15%  { opacity: 1; }
+  38%  { stroke-dashoffset: 0; }
+  54%  { stroke-dashoffset: 0; }
+  82%  { stroke-dashoffset: -346; opacity: 0.7; }
+  100% { stroke-dashoffset: -346; opacity: 0; }
+}
+
+.animate-stroke-draw {
+  stroke-dasharray: 346;
+  animation: stroke-draw 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-stroke-draw-delay {
+  stroke-dasharray: 346;
+  animation: stroke-draw 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: 0.3s;
+}

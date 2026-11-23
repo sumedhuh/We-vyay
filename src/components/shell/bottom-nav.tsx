@@ -7,7 +7,7 @@ import {
   useReducedMotion,
   type Transition,
 } from "framer-motion";
-import { PawPrint, Activity, Users, Settings2, type LucideIcon } from "lucide-react";
+import { PawPrint, Activity, Settings2, Dumbbell, type LucideIcon } from "lucide-react";
 import { useUiStore, type TabId } from "@/stores/ui-store";
 import { haptic } from "@/lib/haptics";
 import { cn } from "@/lib/utils";
@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 export const NAV_TABS: { id: TabId; label: string; icon: LucideIcon }[] = [
   { id: "feed", label: "Feed", icon: Activity },
   { id: "pets", label: "Pets", icon: PawPrint },
-  { id: "community", label: "Community", icon: Users },
+  { id: "workouts", label: "Workouts", icon: Dumbbell },
   { id: "settings", label: "Settings", icon: Settings2 },
 ];
 

@@ -625,6 +625,10 @@ function FaceGuideOverlay({ guides }: { guides: FaceGuide[] }) {
 }
 
 function PoseWorkoutTags() {
+  return null;
+}
+
+function _UnusedPoseWorkoutTags() {
   const [, setTick] = useState(0);
   const reps = usePushupStore((s) => s.reps);
 

@@ -220,3 +220,47 @@ export const animations = pgTable("animations", {
 export type Animation = typeof animations.$inferSelect;
 /** Listing shape — never ships the heavy `data` column to the client. */
 export type AnimationMeta = Omit<Animation, "data">;
+
+// ─── User Profiles (tied to Supabase auth.users via user_id) ───────────────
+export const profiles = pgTable("profiles", {
+  userId: text("user_id").primaryKey(), // Supabase auth.users.id (UUID as text)
+  bio: text("bio").notNull().default(""),
+  iconUrl: text("icon_url"),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .notNull()
+    .defaultNow(),
+});
+
+export type Profile = typeof profiles.$inferSelect;
+export type NewProfile = typeof profiles.$inferInsert;
+
+// ─── User-Created Custom Workouts ─────────────────────────────────────────
+export const userWorkouts = pgTable(
+  "user_workouts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => profiles.userId, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    description: text("description").notNull().default(""),
+    isPublished: boolean("is_published").notNull().default(false),
+    exercises: jsonb("exercises").$type<ExerciseRow[]>().notNull().default([]),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    index("user_workouts_user_idx").on(t.userId, t.createdAt),
+    index("user_workouts_published_idx").on(t.isPublished, t.createdAt),
+  ],
+);
+
+export type UserWorkout = typeof userWorkouts.$inferSelect;
+export type NewUserWorkout = typeof userWorkouts.$inferInsert;
