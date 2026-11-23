@@ -1,4 +1,4 @@
--- Vibe profiles + community reviews for the seeded feed (idempotent)
+-- Vibe profiles + community reviews for the seeded feed ok (idempotent)
 DELETE FROM reviews;
 UPDATE workouts SET rating_sum = 0, rating_count = 0;
 
